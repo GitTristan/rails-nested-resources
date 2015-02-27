@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_action :find_and_set_company
 
   def index
-    @events = Company.events
+    @events = @company.events
   end
 
   def new
@@ -12,7 +12,7 @@ class EventsController < ApplicationController
   def create
     @event = @company.events.new(event_params)
     if @event.save
-      redircts_to company_path(params(:company_id))
+      redirect_to company_path(params[:company_id])
     else
       render :new
     end
@@ -21,7 +21,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event), permit(:name)
+    params.require(:event).permit(:name, :company_id)
   end
 
   def find_and_set_company
